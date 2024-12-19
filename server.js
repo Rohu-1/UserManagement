@@ -25,7 +25,9 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 // Initialize the Express app
 const app = express();
 app.use(cors({
-  origin: 'https://usermanagementsystem118.netlify.app/'
+  origin: 'https://usermanagementsystem118.netlify.app',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 app.use(express.json());
 

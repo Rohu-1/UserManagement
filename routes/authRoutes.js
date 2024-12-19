@@ -25,12 +25,7 @@ router.get('/activities', (req, res, next) => {
 }, authController.getActivities);
 // ... existing routes ...
 
-router.get('/activities', (req, res, next) => {
-  req.supabase = res.locals.supabase;
-  next();
-}, authController.getActivities);
 
-module.exports = router;
 module.exports = router;
 
 
