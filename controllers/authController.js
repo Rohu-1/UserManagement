@@ -1,7 +1,20 @@
 // const bcrypt = require('bcrypt');
 const bcrypt = require('bcryptjs');
 const validator = require('validator');
+function getCleanIpAddress(req) {
+    const ipAddress = req.headers['x-forwarded-for'] || 
+                      req.connection.remoteAddress || 
+                      req.socket.remoteAddress ||
+                      (req.connection.socket ? req.connection.socket.remoteAddress : null);
 
+    if (ipAddress) {
+        if (ipAddress.substr(0, 7) == "::ffff:") {
+            return ipAddress.substr(7);
+        }
+        return ipAddress.split(',')[0].trim();
+    }
+    return 'Unknown';
+}
 // Helper function to log activities
 const logActivity = async (supabase, data) => {
   try {
@@ -32,7 +45,9 @@ const logActivity = async (supabase, data) => {
 exports.signup = async (req, res) => {
   const { email, password, name } = req.body;
   const { supabase } = req;
-  const ipAddress = req.ip || req.connection.remoteAddress;
+  const ipAddress = getCleanIpAddress(req);
+
+
 
   try {
       // Input Validation
@@ -135,8 +150,7 @@ exports.signup = async (req, res) => {
 exports.login = async (req, res) => {
   const { email, password } = req.body;
   const { supabase } = req;
-  const ipAddress = req.ip || req.connection.remoteAddress;
-
+  const ipAddress = getCleanIpAddress(req);
   try {
       // Find user by email
       const { data: user, error: userError } = await supabase
@@ -195,8 +209,7 @@ exports.login = async (req, res) => {
 exports.logout = async (req, res) => {
   const { email } = req.body;
   const { supabase } = req;
-  const ipAddress = req.ip || req.connection.remoteAddress;
-
+  const ipAddress = getCleanIpAddress(req);
   try {
       // Validate email
       if (!email) {
