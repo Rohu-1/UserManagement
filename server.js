@@ -9,6 +9,9 @@ const authRoutes = require('./routes/authRoutes');
 // Load environment variables
 dotenv.config();
 
+app.use(cors({
+  origin: 'https://usermanagementsystem118.netlify.app/'
+}));
 // Ensure the Supabase URL and Key are available
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_KEY;
