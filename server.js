@@ -4,7 +4,7 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const { createClient } = require('@supabase/supabase-js');
 const authRoutes = require('./routes/authRoutes');
-
+//npm install cors
 
 // Load environment variables
 dotenv.config();
